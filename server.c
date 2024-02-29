@@ -6,7 +6,7 @@
 /*   By: rsaueia- <rsaueia-@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:48:42 by rsaueia-          #+#    #+#             */
-/*   Updated: 2024/02/29 16:57:17 by rsaueia-         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:54:19 by rsaueia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	write_name(int sig)
 	}
 	else if (sig == SIGINT)
 	{
+		printf("%c", i);
 		i = 0;
 	}
 }

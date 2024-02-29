@@ -6,7 +6,7 @@
 /*   By: rsaueia- <rsaueia-@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:02 by rsaueia-          #+#    #+#             */
-/*   Updated: 2024/02/29 17:01:02 by rsaueia-         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:55:22 by rsaueia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	treat_char(char c, int pid)
 		if (c == 0)
 		{
 			kill(pid, SIGINT);
-			usleep(250);
 			c--;
+			usleep(250);
 		}
 	}
 }
