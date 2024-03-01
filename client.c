@@ -6,7 +6,7 @@
 /*   By: rsaueia- <rsaueia-@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:02 by rsaueia-          #+#    #+#             */
-/*   Updated: 2024/02/29 19:55:22 by rsaueia-         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:54:34 by rsaueia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,25 @@ int	ft_atoi(const char *nptr)
 	return (number);
 }
 
-void	treat_char(char c, int pid)
+void	break_char(int c, int pid)
 {
-	while (c >= 0)
+	int	counter;
+
+	counter = 0;
+	while (counter < 8)
 	{
-		if (c >= 10)
+		if (c & 128 >> counter)
 		{
 			kill(pid, SIGUSR1);
-			c -= 10;
-			usleep(250);
+		//	usleep(250);
 		}
-		if (c >= 1 && c <= 9)
+		else
 		{
 			kill(pid, SIGUSR2);
-			c -= 1;
-			usleep(250);
+		//	usleep(250);
 		}
-		if (c == 0)
-		{
-			kill(pid, SIGINT);
-			c--;
-			usleep(250);
-		}
+		counter++;
+		usleep(42);
 	}
 }
 
@@ -74,14 +71,13 @@ int	main(int argc, char **argv)
 	int		i;
 
 	i = 0;
-	if (argc == 3)
+	if (argc != 3)
+		return (0);
+	str = argv[2];
+	pid = ft_atoi(argv[1]);
+	while (str[i])
 	{
-		str = argv[2];
-		pid = ft_atoi(argv[1]);
-		while (str[i])
-		{
-			treat_char(str[i], pid);
-			i++;
-		}
+		break_char(str[i], pid);
+		i++;
 	}
 }
