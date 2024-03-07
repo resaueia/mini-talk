@@ -6,17 +6,15 @@
 #    By: rsaueia- <rsaueia-@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 15:58:15 by rsaueia-          #+#    #+#              #
-#    Updated: 2024/03/05 16:58:27 by rsaueia-         ###   ########.fr        #
+#    Updated: 2024/03/05 20:02:14 by rsaueia-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+NAME = minitalk.a
 
 CLIENT_SRC = client.c
 
 SERVER_SRC = server.c
-
-PRINTF_PATH = ft_printf
-
-PRINTF_ARCHIVE = $(PRINTF_PATH)/ft_printf.a
 
 CLIENT_NAME = client
 
@@ -30,29 +28,29 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-all : $(CLIENT_NAME) $(SERVER_NAME)
+PRINTF_PATH = printf
 
-$(CLIENT_NAME): $(CLIENT_SRC) $(PRINTF_ARCHIVE)
-	$(CC) $(CFLAGS) -o $@ $(CLIENT_SRC) -L$(PRINTF_PATH) -lft
+PRINTF_ARCHIVE = $(PRINTF_PATH)/libftprintf.a
 
-$(SERVER_NAME): $(SERVER_SRC) $(PRINTF_ARCHIVE)
-	$(CC) $(CFLAGS) -o $@ $(SERVER_SRC) -L$(PRINTF_PATH) -lft
+$(NAME): $(PRINTF_ARCHIVE) $(SERVER_NAME) $(CLIENT_NAME)
+	ar rcs $(NAME)
+
+all: $(SERVER_NAME) $(CLIENT_NAME)
+
+$(SERVER_NAME) $(CLIENT_NAME): $(OBJS_SERVER) $(OBJS_CLIENT) $(NAME) $(PRINTF_ARCHIVE)
+	$(CC) $(CFLAGS) $(OBJS_SERVER) $(PRINTF_ARCHIVE) -o $(SERVER_NAME)
+	$(CC) $(CFLAGS) $(OBJS_CLIENT) $(PRINTF_ARCHIVE) -o $(CLIENT_NAME)
 
 $(PRINTF_ARCHIVE):
-	$(MAKE) -C $(PRINTF_PATH)
-
-$(NAME): $(OBJS)
-	ar -rc $(NAME) $(OBJS)
-
-.c.o:
-	$(CC) $(CFLAGS) -c $<
+	make -C $(PRINTF_PATH)
 
 clean:
-	$(MAKE) -C $(PRINTF_PATH) clean
+	make -C $(PRINTF_PATH) clean
+	rm -rf $(OBJS_SERVER) $(OBJS_CLIENT)
 
 fclean: clean
-	$(MAKE) -C $(PRINTF_PATH) fclean
-	rm -f $(CLIENT_NAME) $(SERVER_NAME)
+	make -C $(PRINTF_PATH) fclean
+	rm -f $(CLIENT_NAME) $(SERVER_NAME) $(NAME)
 
 re: fclean all
 

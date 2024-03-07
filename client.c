@@ -6,41 +6,11 @@
 /*   By: rsaueia- <rsaueia-@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:02 by rsaueia-          #+#    #+#             */
-/*   Updated: 2024/03/01 19:54:34 by rsaueia-         ###   ########.fr       */
+/*   Updated: 2024/03/05 21:13:10 by rsaueia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <sys/types.h>
-#include <signal.h>
-#include <stdlib.h>
-
-int	ft_atoi(const char *nptr)
-{
-	int	index;
-	int	signal;
-	int	number;
-
-	index = 0;
-	signal = 1;
-	number = 0;
-	while ((nptr[index] > 8 && nptr[index] < 14) || nptr[index] == 32)
-		index++;
-	if (nptr[index] == '+' || nptr[index] == '-')
-	{
-		if (nptr[index] == '-')
-			signal = -signal;
-		index++;
-	}
-	while (nptr[index] >= '0' && nptr[index] <= '9')
-	{
-		number = (number * 10) + (nptr[index] - 48);
-		index++;
-	}
-	number = number * signal;
-	return (number);
-}
+#include "minitalk.h"
 
 void	break_char(int c, int pid)
 {
@@ -52,15 +22,13 @@ void	break_char(int c, int pid)
 		if (c & 128 >> counter)
 		{
 			kill(pid, SIGUSR1);
-		//	usleep(250);
 		}
 		else
 		{
 			kill(pid, SIGUSR2);
-		//	usleep(250);
 		}
 		counter++;
-		usleep(42);
+		usleep(600);
 	}
 }
 
@@ -80,4 +48,5 @@ int	main(int argc, char **argv)
 		break_char(str[i], pid);
 		i++;
 	}
+	break_char('\n', pid);
 }
